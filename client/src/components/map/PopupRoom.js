@@ -1,10 +1,9 @@
 import { Box, Card, ImageListItem, ImageListItemBar } from '@mui/material';
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay, Lazy } from 'swiper';
+import { Pagination, Autoplay, Lazy } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import 'swiper/css/lazy';
 import { useValue } from '../../context/ContextProvider';
 
 const PopupRoom = ({ popupInfo }) => {
@@ -28,9 +27,8 @@ const PopupRoom = ({ popupInfo }) => {
           sx={{ zIndex: 2 }}
         />
         <Swiper
-          modules={[Autoplay, Pagination, Lazy]}
+          modules={[Autoplay, Pagination]}
           autoplay
-          lazy
           pagination={{ clickable: true }}
           style={{
             '--swiper-pagination-color': 'rgba(255,255,255, 0.8)',

@@ -1,3 +1,4 @@
+import deleteImages from './utils/deleteImages';
 import fetchData from './utils/fetchData';
 
 const url = process.env.REACT_APP_SERVER_URL + '/room';
@@ -15,7 +16,7 @@ export const createRoom = async (room, currentUser, dispatch, setPage) => {
       payload: {
         open: true,
         severity: 'success',
-        message: 'The product has been added successfully',
+        message: 'The room has been added successfully',
       },
     });
     dispatch({ type: 'RESET_ROOM' });
@@ -31,4 +32,28 @@ export const getRooms = async (dispatch) => {
   if (result) {
     dispatch({ type: 'UPDATE_ROOMS', payload: result });
   }
+};
+
+export const deleteRoom = async (room, currentUser, dispatch) => {
+  dispatch({ type: 'START_LOADING' });
+
+  const result = await fetchData(
+    { url: `${url}/${room._id}`, method: 'DELETE', token: currentUser?.token },
+    dispatch
+  );
+  if (result) {
+    dispatch({
+      type: 'UPDATE_ALERT',
+      payload: {
+        open: true,
+        severity: 'success',
+        message: 'The room has been deleted successfully',
+      },
+    });
+
+    dispatch({ type: 'DELETE_ROOM', payload: result._id });
+    deleteImages(room.images, currentUser.id);
+  }
+
+  dispatch({ type: 'END_LOADING' });
 };
