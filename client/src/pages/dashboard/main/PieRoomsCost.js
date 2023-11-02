@@ -79,7 +79,7 @@ export default function PieRoomsCost() {
         <Tooltip />
       </PieChart>
       <Stack gap={2}>
-        <Typography variant="h6">Rooms Cost</Typography>
+        <Typography variant="h6">Product Cost</Typography>
         <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
           {COLORS.map((color, i) => (
             <Stack key={color} alignItems="center" spacing={1}>

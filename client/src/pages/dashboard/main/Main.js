@@ -53,7 +53,7 @@ const Main = ({ setSelectedLink, link }) => {
         </Box>
       </Paper>
       <Paper elevation={3} sx={{ p: 3 }}>
-        <Typography variant="h4">Total Rooms</Typography>
+        <Typography variant="h4">Total Products</Typography>
         <Box
           sx={{
             display: 'flex',
@@ -89,7 +89,7 @@ const Main = ({ setSelectedLink, link }) => {
         </Box>
         <Divider sx={{ mt: 3, mb: 3, opacity: 0.7 }} />
         <Box>
-          <Typography>Recently added Rooms</Typography>
+          <Typography>Recently added Products</Typography>
           <List>
             {rooms.slice(0, 4).map((room, i) => (
               <Box key={room._id}>
