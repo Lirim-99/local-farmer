@@ -30,19 +30,19 @@ const RoomsActions = ({ params }) => {
   };
   return (
     <Box>
-      <Tooltip title="View room details">
+      <Tooltip title="View product details">
         <IconButton
           onClick={() => dispatch({ type: 'UPDATE_ROOM', payload: params.row })}
         >
           <Preview />
         </IconButton>
       </Tooltip>
-      <Tooltip title="Edit this room">
+      <Tooltip title="Edit this product">
         <IconButton onClick={handleEdit}>
           <Edit />
         </IconButton>
       </Tooltip>
-      <Tooltip title="Delete this room">
+      <Tooltip title="Delete this product">
         <IconButton
           onClick={() => deleteRoom(params.row, currentUser, dispatch)}
         >

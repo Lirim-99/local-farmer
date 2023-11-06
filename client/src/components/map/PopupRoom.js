@@ -41,7 +41,7 @@ const PopupRoom = ({ popupInfo }) => {
               <Box
                 component="img"
                 src={url}
-                alt="room"
+                alt="product"
                 sx={{
                   height: 255,
                   display: 'block',

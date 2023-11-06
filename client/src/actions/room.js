@@ -16,7 +16,7 @@ export const createRoom = async (room, currentUser, dispatch) => {
       payload: {
         open: true,
         severity: 'success',
-        message: 'The room has been added successfully',
+        message: 'The product has been added successfully',
       },
     });
     clearRoom(dispatch, currentUser);
@@ -49,7 +49,7 @@ export const deleteRoom = async (room, currentUser, dispatch) => {
       payload: {
         open: true,
         severity: 'success',
-        message: 'The room has been deleted successfully',
+        message: 'The product has been deleted successfully',
       },
     });
 
@@ -84,7 +84,7 @@ export const updateRoom = async (
       payload: {
         open: true,
         severity: 'success',
-        message: 'The room has been updated successfully',
+        message: 'The product has been updated successfully',
       },
     });
 

@@ -46,7 +46,7 @@ const BottomNav = () => {
           }
         >
           <BottomNavigationAction label="Map" icon={<LocationOn />} />
-          <BottomNavigationAction label="Rooms" icon={<Bed />} />
+          <BottomNavigationAction label="Products" icon={<Bed />} />
           <BottomNavigationAction label="Add" icon={<AddLocationAlt />} />
         </BottomNavigation>
       </Paper>
