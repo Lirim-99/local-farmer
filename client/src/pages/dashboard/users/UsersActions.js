@@ -25,18 +25,22 @@ const UsersActions = ({ params, rowId, setRowId }) => {
     );
     if (result) {
       setSuccess(true);
-      setRowId(null);
-      // const user = users.find(user=>user._id === _id)
-      // user.role = role
-      // user.active = active
+      // Fetch the updated user data
       getUsers(dispatch, currentUser);
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    if (rowId === params.id && success) setSuccess(false);
-  }, [rowId]);
+    if (rowId === params.id && success) {
+      setSuccess(false);
+      // Button is clickable again after success
+      setRowId(null);
+    }
+  }, [rowId, params.id, success]);
+
+  // Determine if the button should be disabled
+  const isButtonDisabled = params.id !== rowId || loading;
 
   return (
     <Box
@@ -64,7 +68,7 @@ const UsersActions = ({ params, rowId, setRowId }) => {
             width: 40,
             height: 40,
           }}
-          disabled={params.id !== rowId || loading}
+          disabled={isButtonDisabled} // Update the disabled state
           onClick={handleSubmit}
         >
           <Save />

@@ -8,7 +8,6 @@ const AddImages = () => {
   const [files, setFiles] = useState([]);
   const onDrop = useCallback((acceptedFiles) => {
     setFiles(acceptedFiles);
-    console.log("accepted", acceptedFiles)
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
