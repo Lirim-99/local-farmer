@@ -48,7 +48,7 @@ export default function PieRoomsCost() {
       moreThan35++;
     });
     setCostGroups([
-      { name: 'Free', qty: free },
+      { name: 'Free ', qty: free },
       { name: 'Less Than $15', qty: lessThan15 },
       { name: 'Between $15 & $35', qty: between15And35 },
       { name: 'More Than $35', qty: moreThan35 },
@@ -79,7 +79,7 @@ export default function PieRoomsCost() {
         <Tooltip />
       </PieChart>
       <Stack gap={2}>
-        <Typography variant="h6">Product Cost</Typography>
+        <Typography variant="h6">Products Cost</Typography>
         <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
           {COLORS.map((color, i) => (
             <Stack key={color} alignItems="center" spacing={1}>

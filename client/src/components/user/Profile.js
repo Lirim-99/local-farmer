@@ -14,12 +14,16 @@ import { useValue } from '../../context/ContextProvider';
 import { useRef } from 'react';
 import { updateProfile } from '../../actions/user';
 
+// ... (imports)
+
 const Profile = () => {
   const {
     state: { profile, currentUser },
     dispatch,
   } = useValue();
   const nameRef = useRef();
+  const passwordRef = useRef();
+  const emailRef = useRef();
 
   const handleClose = () => {
     dispatch({ type: 'UPDATE_PROFILE', payload: { ...profile, open: false } });
@@ -35,11 +39,27 @@ const Profile = () => {
       });
     }
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const name = nameRef.current.value;
+    const password = passwordRef.current.value;
+    const email = emailRef.current.value;
+
+    // Update profile information
     updateProfile(currentUser, { name, file: profile.file }, dispatch);
+
+    // Update password (example)
+    // You need to implement the updatePassword function
+    // updatePassword(currentUser, password, dispatch);
+
+    // Update email (example)
+    // You need to implement the updateEmail function
+    // updateEmail(currentUser, email, dispatch);
+
+    handleClose();
   };
+
   return (
     <Dialog open={profile.open} onClose={handleClose}>
       <DialogTitle>
@@ -74,6 +94,24 @@ const Profile = () => {
             inputProps={{ minLength: 2 }}
             required
             defaultValue={currentUser?.name}
+          />
+          <TextField
+            margin="normal"
+            variant="standard"
+            id="password"
+            label="New Password"
+            type="password"
+            fullWidth
+            inputRef={passwordRef}
+          />
+          <TextField
+            margin="normal"
+            variant="standard"
+            id="email"
+            label="New Email"
+            type="email"
+            fullWidth
+            inputRef={emailRef}
           />
           <label htmlFor="profilePhoto">
             <input

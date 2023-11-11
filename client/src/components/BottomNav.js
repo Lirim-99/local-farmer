@@ -4,7 +4,9 @@ import {
   Box,
   Paper,
 } from '@mui/material';
-import { AddLocationAlt, Bed, LocationOn } from '@mui/icons-material';
+import { AddLocationAlt, Bed, LocationOn  } from '@mui/icons-material';
+import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
+
 import { useEffect, useRef, useState } from 'react';
 import ClusterMap from './map/ClusterMap';
 import Rooms from './rooms/Rooms';
@@ -46,7 +48,7 @@ const BottomNav = () => {
           }
         >
           <BottomNavigationAction label="Map" icon={<LocationOn />} />
-          <BottomNavigationAction label="Products" icon={<Bed />} />
+          <BottomNavigationAction label="Products" icon={<LocalGroceryStoreIcon  />} />
           <BottomNavigationAction label="Add" icon={<AddLocationAlt />} />
         </BottomNavigation>
       </Paper>
