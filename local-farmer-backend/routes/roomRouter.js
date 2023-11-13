@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import User from '../models/User.js';
 
 import {
   createRoom,
@@ -11,18 +12,39 @@ import checkAccess from '../middleware/checkAccess.js';
 import roomPermissions from '../middleware/permissions/room/roomPermissions.js';
 
 const roomRouter = Router();
-roomRouter.post('/', auth, createRoom);
+
+const checkCategory = (allowedCategories) => async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const user = await User.findById(userId);
+    if (!user || !allowedCategories.includes(user.category)) {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied. User category does not allow this action.',
+      });
+    }
+    next();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
+roomRouter.post('/', auth, checkCategory(['seller']), createRoom);
 roomRouter.get('/', getRooms);
 roomRouter.delete(
   '/:roomId',
   auth,
+  checkCategory(['seller', 'admin', 'editor']), // Adjust the allowed category as needed
   checkAccess(roomPermissions.delete),
   deleteRoom
 );
 roomRouter.patch(
   '/:roomId',
   auth,
+  checkCategory(['seller', 'admin', 'editor']), // Adjust the allowed category as needed
   checkAccess(roomPermissions.update),
   updateRoom
 );
+
 export default roomRouter;

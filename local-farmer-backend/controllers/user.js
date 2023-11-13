@@ -4,8 +4,9 @@ import jwt from 'jsonwebtoken';
 import tryCatch from './utils/tryCatch.js';
 import Room from '../models/Room.js';
 
+
 export const register = tryCatch(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, category } = req.body;
   if (password.length < 6)
     return res.status(400).json({
       success: false,
@@ -22,6 +23,7 @@ export const register = tryCatch(async (req, res) => {
     name,
     email: emailLowerCase,
     password: hashedPassword,
+    category, 
   });
   const { _id: id, photoURL, role, active } = user;
   const token = jwt.sign({ id, name, photoURL, role }, process.env.JWT_SECRET, {
@@ -29,7 +31,7 @@ export const register = tryCatch(async (req, res) => {
   });
   res.status(201).json({
     success: true,
-    result: { id, name, email: user.email, photoURL, token, role, active },
+    result: { id, name, email: user.email, photoURL, token, role, active, category },
   });
 });
 

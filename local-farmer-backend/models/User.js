@@ -19,6 +19,11 @@ const userSchema = mongoose.Schema(
       enum: ['basic', 'editor', 'admin'],
     },
     active: { type: Boolean, default: true },
+    category: {
+      type: String,
+      default: 'buyer', // default category, modify as needed
+      enum: ['buyer', 'seller'],
+    },
   },
   { timestamps: true }
 );

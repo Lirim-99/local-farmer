@@ -8,6 +8,10 @@ import {
   DialogTitle,
   IconButton,
   TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { login, register } from '../../actions/user';
@@ -22,6 +26,7 @@ const Login = () => {
   } = useValue();
   const [title, setTitle] = useState('Login');
   const [isRegister, setIsRegister] = useState(false);
+  const [category, setCategory] = useState('buyer');
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -47,12 +52,13 @@ const Login = () => {
           message: 'Passwords do not match',
         },
       });
-    register({ name, email, password }, dispatch);
+    register({ name, email, password, category }, dispatch);
   };
 
   useEffect(() => {
     isRegister ? setTitle('Register') : setTitle('Login');
   }, [isRegister]);
+
   return (
     <Dialog open={openLogin} onClose={handleClose}>
       <DialogTitle>
@@ -101,19 +107,37 @@ const Login = () => {
           />
           <PasswordField {...{ passwordRef }} />
           {isRegister && (
-            <PasswordField
-              passwordRef={confirmPasswordRef}
-              id="confirmPassword"
-              label="Confirm Password"
-            />
+            <>
+              <PasswordField
+                passwordRef={confirmPasswordRef}
+                id="confirmPassword"
+                label="Confirm Password"
+              />
+              <FormControl fullWidth sx={{ mt: 2 }}>
+                <InputLabel id="category-label">Category</InputLabel>
+                <Select
+                  labelId="category-label"
+                  id="category"
+                  value={category}
+                  label="Category"
+                  onChange={(e) => setCategory(e.target.value)}
+                  required
+                >
+                  <MenuItem value="buyer">Buyer</MenuItem>
+                  <MenuItem value="seller">Seller</MenuItem>
+                </Select>
+              </FormControl>
+            </>
           )}
         </DialogContent>
+
         <DialogActions sx={{ px: '19px' }}>
           <Button type="submit" variant="contained" endIcon={<Send />}>
             Submit
           </Button>
         </DialogActions>
       </form>
+
       <DialogActions sx={{ justifyContent: 'left', p: '5px 24px' }}>
         {isRegister
           ? 'Do you have an account? Sign in now '
