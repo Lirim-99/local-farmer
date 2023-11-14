@@ -125,6 +125,7 @@ const Login = () => {
                 >
                   <MenuItem value="buyer">Buyer</MenuItem>
                   <MenuItem value="seller">Seller</MenuItem>
+                  <MenuItem value="barter">Barter</MenuItem>
                 </Select>
               </FormControl>
             </>

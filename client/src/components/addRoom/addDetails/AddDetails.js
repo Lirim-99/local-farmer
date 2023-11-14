@@ -3,6 +3,9 @@ import {
   FormControlLabel,
   InputAdornment,
   Radio,
+  MenuItem,
+  Select,
+  InputLabel,
   RadioGroup,
   Stack,
   TextField,
@@ -14,11 +17,16 @@ import InfoField from './InfoField';
 const AddDetails = () => {
   const {
     state: {
-      details: { title, description, price },
+      details: { title, description, price, selectedCategories },
     },
     dispatch,
   } = useValue();
+  const initialSelectedCategories = Array.isArray(selectedCategories)
+    ? selectedCategories
+    : [];
+
   const [costType, setCostType] = useState(price ? 1 : 0);
+  const [categories, setCategories] = useState(initialSelectedCategories);
   const handleCostTypeChange = (e) => {
     const costType = Number(e.target.value);
     setCostType(costType);
@@ -30,6 +38,9 @@ const AddDetails = () => {
   };
   const handlePriceChange = (e) => {
     dispatch({ type: 'UPDATE_DETAILS', payload: { price: e.target.value } });
+  };
+  const handleCategoryChange = (e) => {
+    setCategories(e.target.value);
   };
   return (
     <Stack
@@ -64,6 +75,26 @@ const AddDetails = () => {
           )}
         </RadioGroup>
       </FormControl>
+
+      <FormControl sx={{ width: '50%' }}>
+  <InputLabel id="category-label">Select Categories</InputLabel>
+  <Select
+    labelId="category-label"
+    id="category"
+    multiple
+    value={categories}
+    onChange={handleCategoryChange}
+    renderValue={(selected) => selected.join(', ')}
+    sx={{ width: '100%' }} // Set the width to 100%
+  >
+    {/* Render your categories dynamically */}
+    <MenuItem value="Cereals">Cereals</MenuItem>
+    <MenuItem value="Maize">Maize</MenuItem>
+    {/* ... Add more categories and subcategories */}
+  </Select>
+</FormControl>
+
+
       <InfoField
         mainProps={{ name: 'title', label: 'Title', value: title }}
         minLength={5}

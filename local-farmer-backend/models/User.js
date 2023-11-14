@@ -22,7 +22,7 @@ const userSchema = mongoose.Schema(
     category: {
       type: String,
       default: 'buyer', // default category, modify as needed
-      enum: ['buyer', 'seller'],
+      enum: ['buyer', 'seller', 'barter'],
     },
   },
   { timestamps: true }
