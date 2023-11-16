@@ -10,7 +10,7 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useValue } from '../../../context/ContextProvider';
 import InfoField from './InfoField';
 
@@ -18,15 +18,19 @@ const AddDetails = () => {
   const {
     state: {
       details: { title, description, price, selectedCategories },
+      categories: fetchedCategories,
     },
     dispatch,
+    fetchCategories,
   } = useValue();
+  
   const initialSelectedCategories = Array.isArray(selectedCategories)
     ? selectedCategories
     : [];
 
   const [costType, setCostType] = useState(price ? 1 : 0);
   const [categories, setCategories] = useState(initialSelectedCategories);
+
   const handleCostTypeChange = (e) => {
     const costType = Number(e.target.value);
     setCostType(costType);
@@ -36,12 +40,18 @@ const AddDetails = () => {
       dispatch({ type: 'UPDATE_DETAILS', payload: { price: 15 } });
     }
   };
+
   const handlePriceChange = (e) => {
     dispatch({ type: 'UPDATE_DETAILS', payload: { price: e.target.value } });
   };
+
   const handleCategoryChange = (e) => {
     setCategories(e.target.value);
   };
+  useEffect(() => {
+    // Fetch categories when the component mounts
+    fetchCategories(); // Call the function to fetch categories from the API
+  }, [fetchCategories]);
   return (
     <Stack
       sx={{
@@ -77,23 +87,28 @@ const AddDetails = () => {
       </FormControl>
 
       <FormControl sx={{ width: '50%' }}>
-  <InputLabel id="category-label">Select Categories</InputLabel>
-  <Select
+        <InputLabel id="category-label">Select Categories</InputLabel>
+        <Select
     labelId="category-label"
     id="category"
     multiple
     value={categories}
     onChange={handleCategoryChange}
     renderValue={(selected) => selected.join(', ')}
-    sx={{ width: '100%' }} // Set the width to 100%
+    sx={{ width: '100%' }}
   >
-    {/* Render your categories dynamically */}
-    <MenuItem value="Cereals">Cereals</MenuItem>
-    <MenuItem value="Maize">Maize</MenuItem>
-    {/* ... Add more categories and subcategories */}
+    {/* Render fetched categories dynamically */}
+    {fetchedCategories ? (
+      fetchedCategories.map((category) => (
+        <MenuItem key={category} value={category}>
+          {category}
+        </MenuItem>
+      ))
+    ) : (
+      <MenuItem value="">Loading...</MenuItem>
+    )}
   </Select>
-</FormControl>
-
+      </FormControl>
 
       <InfoField
         mainProps={{ name: 'title', label: 'Title', value: title }}
