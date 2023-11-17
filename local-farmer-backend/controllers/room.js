@@ -1,17 +1,9 @@
 import Room from '../models/Room.js';
-import Product from '../models/Product.js';
 import tryCatch from './utils/tryCatch.js';
 
 export const createRoom = tryCatch(async (req, res) => {
   const { id: uid, name: uName, photoURL: uPhoto } = req.user;
-  const { category, ...otherFields } = req.body;
-
-  // Fetch categories and subcategories from the Product collection
-  const productData = await Product.findOne({ name: category });
-  const { name, subcategories } = productData || { name: category, subcategories: [] };
-
-  // Create new Room instance with fetched categories and subcategories
-  const newRoom = new Room({ ...otherFields, uid, uName, uPhoto, category: name, subcategories });
+  const newRoom = new Room({ ...req.body, uid, uName, uPhoto });
   await newRoom.save();
   res.status(201).json({ success: true, result: newRoom });
 });

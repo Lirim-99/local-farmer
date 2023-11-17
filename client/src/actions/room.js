@@ -35,17 +35,6 @@ export const getRooms = async (dispatch) => {
   }
   dispatch({ type: 'END_LOADING' });
 };
-export const fetchCategories = async (dispatch) => {
-  try {
-    const result = await fetchData({ url: `${url}/categories`, method: 'GET' }, dispatch);
-    if (result) {
-      dispatch({ type: 'UPDATE_CATEGORIES', payload: result });
-    }
-  } catch (error) {
-    console.error(error);
-    // Handle error if needed
-  }
-};
 
 export const deleteRoom = async (room, currentUser, dispatch) => {
   dispatch({ type: 'START_LOADING' });

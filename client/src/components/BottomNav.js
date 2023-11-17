@@ -42,8 +42,8 @@ const BottomNav = () => {
     <Box ref={ref}>
       {
         {
-          0: <Rooms /> ,
-          1: currentUser && currentUser.role !== 'basic' ? <ClusterMap /> : null,
+          0: currentUser && currentUser.role !== 'basic' ? <ClusterMap /> : null,
+          1: <Rooms />,
           2: (
             <Protected>
               <AddRoom />
@@ -62,14 +62,13 @@ const BottomNav = () => {
             dispatch({ type: 'UPDATE_SECTION', payload: newValue })
           }
         >
+          {currentUser && currentUser.role !== 'basic' && (
+            <BottomNavigationAction label="Map" icon={<LocationOn />} />
+          )}
           <BottomNavigationAction
             label="Products"
             icon={<LocalGroceryStoreIcon />}
           />
-          {currentUser && currentUser.role !== 'basic' && (
-            <BottomNavigationAction label="Map" icon={<LocationOn />} />
-          )}
-          
           <BottomNavigationAction label="Add" icon={<AddLocationAlt />} />
         </BottomNavigation>
       </Paper>

@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import User from '../models/User.js';
-import Product from '../models/Product.js';
 
 import {
   createRoom,
@@ -30,15 +29,6 @@ const checkCategory = (allowedCategories) => async (req, res, next) => {
     res.status(500).json({ success: false, message: 'Server Error' });
   }
 };
-roomRouter.get('/categories', async (req, res) => {
-  try {
-    // Fetch distinct categories from the Products collection
-    const categories = await Product.distinct('name');
-    res.status(200).json(categories);
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch categories' });
-  }
-});
 
 roomRouter.post('/', auth, checkCategory(['seller']), createRoom);
 roomRouter.get('/', getRooms);
