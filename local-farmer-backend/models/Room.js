@@ -19,6 +19,12 @@ const roomSchema = mongoose.Schema(
     uid: { type: String, required: true },
     uName: { type: String, required: true },
     uPhoto: { type: String, default: '' },
+    category: {
+      type: {
+        mainCategory: String, // Main category
+        subCategories: [String], // Array of subcategories
+      },
+    },
   },
   { timestamps: true }
 );

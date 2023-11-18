@@ -14,7 +14,7 @@ const initialState = {
   alert: { open: false, severity: 'info', message: '' },
   profile: { open: false, file: null, photoURL: '' },
   images: [],
-  details: { title: '', description: '', price: 0 },
+  details: { title: '', description: '', price: 0 , category:''},
   location: { lng: 0, lat: 0 },
   updatedRoom: null,
   deletedImages: [],
@@ -58,6 +58,8 @@ const ContextProvider = ({ children }) => {
           payload: room.deletedImages,
         });
         dispatch({ type: 'UPDATE_ADDED_IMAGES', payload: room.addedImages });
+
+        dispatch({ type: 'UPDATE_CATEGORY', payload: room.details.category });
       }
     }
   }, [state.currentUser]);

@@ -53,7 +53,11 @@ const reducer = (state, action) => {
         deletedImages: [],
         addedImages: [],
       };
-
+    case 'UPDATE_CATEGORY':
+      return {
+        ...state,
+        details: { ...state.details, category: action.payload },
+      };
     case 'UPDATE_ROOMS':
       return {
         ...state,

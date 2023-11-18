@@ -17,16 +17,43 @@ import InfoField from './InfoField';
 const AddDetails = () => {
   const {
     state: {
-      details: { title, description, price, selectedCategories },
+      details: { title, description, price, category },
     },
     dispatch,
   } = useValue();
-  const initialSelectedCategories = Array.isArray(selectedCategories)
-    ? selectedCategories
-    : [];
+  const categories = [
+    {
+      name: 'Cereals',
+      subcategories: [
+        'Maize', 'Rice', 'Wheat', 'Barley', 'Sorghum', 'Millet', 'Oats', 'Triticale', 'Rye',
+        'Fonio', 'Buckwheat', 'Quinoa', 'Chia'
+      ],
+    },
+    {
+      name: 'Legumes',
+      subcategories: [
+        'Beans', 'Soybeans', 'Chickpeas', 'Peanuts', 'Lentils', 'Lupins', 'Grass peas',
+        'Carob', 'Tamarind'
+      ],
+    },
+    {
+      name: 'Nuts',
+      subcategories: [
+        'Almond', 'Brazil nut', 'Cashew', 'Chestnut', 'Coconut', 'Hazelnut', 'Macadamia', 'Peanut',
+        'Pecan', 'Pine nuts', 'Pistachio', 'Walnut', 'Acorns', 'Beech nuts'
+      ],
+    },
+  ];
+  
+
+  const initialCategory = category.mainCategory || ''; // Assuming category.mainCategory holds the main category
+  const initialSubCategory = category.subCategories || [];
 
   const [costType, setCostType] = useState(price ? 1 : 0);
-  const [categories, setCategories] = useState(initialSelectedCategories);
+
+  const [mainCategory, setMainCategory] = useState(initialCategory);
+  const [subCategories, setSubCategories] = useState(initialSubCategory)
+
   const handleCostTypeChange = (e) => {
     const costType = Number(e.target.value);
     setCostType(costType);
@@ -39,8 +66,16 @@ const AddDetails = () => {
   const handlePriceChange = (e) => {
     dispatch({ type: 'UPDATE_DETAILS', payload: { price: e.target.value } });
   };
-  const handleCategoryChange = (e) => {
-    setCategories(e.target.value);
+  const handleMainCategoryChange = (e) => {
+    setMainCategory(e.target.value);
+    // Reset subcategories when changing the main category
+    setSubCategories([]);
+  };
+  const handleSubCategoryChange = (e) => {
+    const selectedSubCategories = Array.isArray(e.target.value)
+      ? e.target.value
+      : [e.target.value];
+    setSubCategories(selectedSubCategories);
   };
   return (
     <Stack
@@ -57,7 +92,11 @@ const AddDetails = () => {
           onChange={handleCostTypeChange}
         >
           <FormControlLabel value={0} control={<Radio />} label="Free" />
-          <FormControlLabel value={1} control={<Radio />} label="Nominal Fee" />
+          <FormControlLabel
+            value={1}
+            control={<Radio />}
+            label="Nominal Fee"
+          />
           {Boolean(costType) && (
             <TextField
               sx={{ width: '7ch !important' }}
@@ -77,23 +116,27 @@ const AddDetails = () => {
       </FormControl>
 
       <FormControl sx={{ width: '50%' }}>
-  <InputLabel id="category-label">Select Categories</InputLabel>
-  <Select
-    labelId="category-label"
-    id="category"
-    multiple
-    value={categories}
-    onChange={handleCategoryChange}
-    renderValue={(selected) => selected.join(', ')}
-    sx={{ width: '100%' }} // Set the width to 100%
-  >
-    {/* Render your categories dynamically */}
-    <MenuItem value="Cereals">Cereals</MenuItem>
-    <MenuItem value="Maize">Maize</MenuItem>
-    {/* ... Add more categories and subcategories */}
-  </Select>
-</FormControl>
-
+      <InputLabel id="category-label">Select Categories</InputLabel>
+      <Select
+        labelId="category-label"
+        id="category"
+        multiple
+        value={subCategories}
+        onChange={handleSubCategoryChange}
+        renderValue={(selected) => selected.join(', ')}
+        sx={{ width: '100%' }}
+      >
+        {categories.map((category) => (
+          <optgroup label={category.name} key={category.name}>
+            {category.subcategories.map((subcategory) => (
+              <MenuItem value={subcategory} key={subcategory}>
+                {subcategory}
+              </MenuItem>
+            ))}
+          </optgroup>
+        ))}
+      </Select>
+    </FormControl>
 
       <InfoField
         mainProps={{ name: 'title', label: 'Title', value: title }}

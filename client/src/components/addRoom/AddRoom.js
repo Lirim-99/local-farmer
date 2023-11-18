@@ -31,8 +31,8 @@ const AddRoom = () => {
   } = useValue();
   const [activeStep, setActiveStep] = useState(0);
   const [steps, setSteps] = useState([
-    { label: 'Location', completed: false },
     { label: 'Details', completed: false },
+    { label: 'Location', completed: false },
     { label: 'Images', completed: false },
   ]);
   const [showSubmit, setShowSubmit] = useState(false);
@@ -138,8 +138,8 @@ const AddRoom = () => {
       <Box sx={{ pb: 7 }}>
         {
           {
-            0: <AddLocation />,
-            1: <AddDetails />,
+            0: <AddDetails /> ,
+            1: <AddLocation />,
             2: <AddImages />,
           }[activeStep]
         }
