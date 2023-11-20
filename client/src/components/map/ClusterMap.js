@@ -7,6 +7,20 @@ import './cluster.css';
 import { Avatar, Paper, Tooltip } from '@mui/material';
 import GeocoderInput from '../sidebar/GeocoderInput';
 import PopupRoom from './PopupRoom';
+import CerealIcon from '../categoryIcons/cereal.jpg';
+import FruitsIcon from '../categoryIcons/fruits.svg';
+import LegumesIcon from '../categoryIcons/legumes.jpg';
+import NutsIcon from '../categoryIcons/nuts.svg';
+import VegetablesIcon from '../categoryIcons/vegetables.svg';
+
+const iconMapping = {
+  Cereals: CerealIcon,
+  Fruits: FruitsIcon,
+  Legumes: LegumesIcon,
+  Nuts: NutsIcon,
+  Vegetables: VegetablesIcon,
+};
+
 
 const supercluster = new Supercluster({
   radius: 75,
@@ -30,27 +44,33 @@ const ClusterMap = () => {
   }, []);
 
   useEffect(() => {
-    const points = filteredRooms.map((room) => ({
-      type: 'Feature',
-      properties: {
-        cluster: false,
-        roomId: room._id,
-        price: room.price,
-        title: room.title,
-        description: room.description,
-        lng: room.lng,
-        lat: room.lat,
-        images: room.images,
-        uPhoto: room.uPhoto,
-        uName: room.uName,
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [parseFloat(room.lng), parseFloat(room.lat)],
-      },
-    }));
+    const points = filteredRooms.map((room) => {
+      const mainCategory = room.category ? room.category.mainCategory : 'Unknown'; // Access mainCategory under category
+      console.log(mainCategory);       
+      return {
+        type: 'Feature',
+        properties: {
+          cluster: false,
+          roomId: room._id,
+          price: room.price,
+          title: room.title,
+          description: room.description,
+          lng: room.lng,
+          lat: room.lat,
+          images: room.images,
+          uPhoto: room.uPhoto,
+          uName: room.uName,
+          mainCategory: mainCategory, // Assuming mainCategory exists in your room object
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [parseFloat(room.lng), parseFloat(room.lat)],
+        },
+      };
+    });
     setPoints(points);
   }, [filteredRooms]);
+  
 
   useEffect(() => {
     supercluster.load(points);
@@ -75,6 +95,9 @@ const ClusterMap = () => {
       {clusters.map((cluster) => {
         const { cluster: isCluster, point_count } = cluster.properties;
         const [longitude, latitude] = cluster.geometry.coordinates;
+        const mainCategory = cluster.properties.mainCategory;
+        console.log("mainCategory", mainCategory)
+        const categoryIcon = iconMapping[mainCategory];
         if (isCluster) {
           return (
             <Marker
@@ -108,19 +131,28 @@ const ClusterMap = () => {
 
         return (
           <Marker
-            key={`room-${cluster.properties.roomId}`}
-            longitude={longitude}
-            latitude={latitude}
-          >
-            <Tooltip title={cluster.properties.uName}>
-              <Avatar
-                src={cluster.properties.uPhoto}
-                component={Paper}
-                elevation={2}
-                onClick={() => setPopupInfo(cluster.properties)}
-              />
-            </Tooltip>
-          </Marker>
+    key={`room-${cluster.properties.roomId}`}
+    longitude={longitude}
+    latitude={latitude}
+  >
+    <Tooltip title={cluster.properties.uName}>
+      {/* Dynamically select the icon based on mainCategory */}
+      <div
+        className="custom-marker"
+        style={{
+          backgroundImage: `url(${categoryIcon || cluster.properties.uPhoto})`,
+          width: '32px', // Adjust the width as needed
+          height: '32px', // Adjust the height as needed
+          cursor: 'pointer',
+          backgroundSize: 'cover',
+          borderRadius: '50%',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+        }}
+        onClick={() => setPopupInfo(cluster.properties)}
+      />
+    </Tooltip>
+  </Marker>
+        
         );
       })}
       <GeocoderInput />

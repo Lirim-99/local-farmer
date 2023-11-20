@@ -23,21 +23,21 @@ const AddDetails = () => {
   } = useValue();
   const categories = [
     {
-      name: 'Cereals',
+      mainCategory: 'Cereals',
       subcategories: [
         'Maize', 'Rice', 'Wheat', 'Barley', 'Sorghum', 'Millet', 'Oats', 'Triticale', 'Rye',
         'Fonio', 'Buckwheat', 'Quinoa', 'Chia'
       ],
     },
     {
-      name: 'Legumes',
+      mainCategory: 'Legumes',
       subcategories: [
         'Beans', 'Soybeans', 'Chickpeas', 'Peanuts', 'Lentils', 'Lupins', 'Grass peas',
         'Carob', 'Tamarind'
       ],
     },
     {
-      name: 'Nuts',
+      mainCategory: 'Nuts',
       subcategories: [
         'Almond', 'Brazil nut', 'Cashew', 'Chestnut', 'Coconut', 'Hazelnut', 'Macadamia', 'Peanut',
         'Pecan', 'Pine nuts', 'Pistachio', 'Walnut', 'Acorns', 'Beech nuts'
@@ -46,8 +46,9 @@ const AddDetails = () => {
   ];
   
 
-  const initialCategory = category.mainCategory || ''; // Assuming category.mainCategory holds the main category
-  const initialSubCategory = category.subCategories || [];
+
+  const initialCategory = category?.mainCategory || '';
+  const initialSubCategory = category?.subCategories || [];
 
   const [costType, setCostType] = useState(price ? 1 : 0);
 
@@ -67,16 +68,43 @@ const AddDetails = () => {
     dispatch({ type: 'UPDATE_DETAILS', payload: { price: e.target.value } });
   };
   const handleMainCategoryChange = (e) => {
-    setMainCategory(e.target.value);
+    const selectedMainCategory = e.target.value;
+    setMainCategory(selectedMainCategory);
+    console.log('Selected Main Category:', selectedMainCategory);
+
+    
     // Reset subcategories when changing the main category
     setSubCategories([]);
+  
+    dispatch({
+      type: 'UPDATE_DETAILS',
+      payload: {
+        price: costType === 0 ? 0 : 15, // Get price from state or set default
+        category: {
+          mainCategory: selectedMainCategory,
+          subCategories: [],
+        },
+      },
+    });
   };
+  
   const handleSubCategoryChange = (e) => {
-    const selectedSubCategories = Array.isArray(e.target.value)
-      ? e.target.value
-      : [e.target.value];
+    const selectedSubCategories = Array.isArray(e.target.value) ? e.target.value : [e.target.value];
     setSubCategories(selectedSubCategories);
+    console.log('Selected Sub Categories:', selectedSubCategories);
+
+    dispatch({
+      type: 'UPDATE_DETAILS',
+      payload: {
+        price: costType === 0 ? 0 : 15, // Get price from state or set default
+        category: {
+          mainCategory,
+          subCategories: selectedSubCategories,
+        },
+      },
+    });
   };
+  
   return (
     <Stack
       sx={{
@@ -116,27 +144,42 @@ const AddDetails = () => {
       </FormControl>
 
       <FormControl sx={{ width: '50%' }}>
-      <InputLabel id="category-label">Select Categories</InputLabel>
-      <Select
-        labelId="category-label"
-        id="category"
-        multiple
-        value={subCategories}
-        onChange={handleSubCategoryChange}
-        renderValue={(selected) => selected.join(', ')}
-        sx={{ width: '100%' }}
-      >
-        {categories.map((category) => (
-          <optgroup label={category.name} key={category.name}>
-            {category.subcategories.map((subcategory) => (
-              <MenuItem value={subcategory} key={subcategory}>
-                {subcategory}
-              </MenuItem>
+        <InputLabel id="category-label">Select Main Category</InputLabel>
+        <Select
+          labelId="category-label"
+          id="category"
+          value={mainCategory}
+          onChange={handleMainCategoryChange}
+          sx={{ width: '100%' }}
+        >
+          {categories.map((category) => (
+            <MenuItem value={category.mainCategory} key={category.mainCategory}>
+              {category.mainCategory}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      {mainCategory && (
+        <FormControl sx={{ width: '50%' }}>
+          <InputLabel id="subcategory-label">Select Subcategories</InputLabel>
+          <Select
+            labelId="subcategory-label"
+            id="subcategory"
+            multiple
+            value={subCategories}
+            onChange={handleSubCategoryChange}
+            renderValue={(selected) => selected.join(', ')}
+            sx={{ width: '100%' }}
+          >
+            {categories.find((cat) => cat.mainCategory === mainCategory)?.subcategories.map((subcategory) => (
+  <MenuItem value={subcategory} key={subcategory}>
+    {subcategory}
+  </MenuItem>
             ))}
-          </optgroup>
-        ))}
-      </Select>
-    </FormControl>
+          </Select>
+        </FormControl>
+      )}
 
       <InfoField
         mainProps={{ name: 'title', label: 'Title', value: title }}

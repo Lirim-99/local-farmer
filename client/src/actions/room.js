@@ -6,8 +6,20 @@ const url = process.env.REACT_APP_SERVER_URL + '/room';
 export const createRoom = async (room, currentUser, dispatch) => {
   dispatch({ type: 'START_LOADING' });
 
+  let roomWithCategory = { ...room };
+
+  if (room.details && room.details.category) {
+    roomWithCategory = {
+      ...room,
+      category: {
+        mainCategory: room.details.category.mainCategory || '',
+        subCategories: room.details.category.subCategories || [],
+      },
+    };
+  }
+
   const result = await fetchData(
-    { url, body: room, token: currentUser?.token },
+    { url, body: roomWithCategory, token: currentUser?.token },
     dispatch
   );
   if (result) {

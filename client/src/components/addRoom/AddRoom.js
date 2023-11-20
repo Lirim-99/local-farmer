@@ -97,6 +97,7 @@ const AddRoom = () => {
       title: details.title,
       description: details.description,
       images,
+      category: details.category,
     };
     if (updatedRoom)
       return updateRoom(
