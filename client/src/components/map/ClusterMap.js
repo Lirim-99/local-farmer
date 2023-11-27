@@ -8,7 +8,7 @@ import { Avatar, Paper, Tooltip } from '@mui/material';
 import GeocoderInput from '../sidebar/GeocoderInput';
 import PopupRoom from './PopupRoom';
 import CerealIcon from '../categoryIcons/cereal.jpg';
-import FruitsIcon from '../categoryIcons/fruits.svg';
+import FruitsIcon from '../categoryIcons/fruits.jpg';
 import LegumesIcon from '../categoryIcons/legumes.jpg';
 import NutsIcon from '../categoryIcons/nuts.svg';
 import VegetablesIcon from '../categoryIcons/vegetables.svg';

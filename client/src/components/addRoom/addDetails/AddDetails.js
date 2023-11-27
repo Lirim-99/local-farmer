@@ -43,6 +43,13 @@ const AddDetails = () => {
         'Pecan', 'Pine nuts', 'Pistachio', 'Walnut', 'Acorns', 'Beech nuts'
       ],
     },
+    {
+      mainCategory: 'Fruits',
+      subcategories: [
+        'Apples', 'Apricots ', 'Açaí', 'Avocados', 'Bananas', 'Blood limes', 'Buddha’s Hand', 'Carambola',
+        'Cherries', 'Crimson', 'Dragonfruits', 'Grapefruits', 'Grapes', 'Kiwifruit', 'Lemons', 'Limes', 'Mango', 'Nectarines', 'Olives', 'Oranges', 'Papaya', 'Pears', 'Peaches', 'Plums', 'Pomegranates', 'Quinces', 'Tangerines', 'Watermelons', 'Yuzu'
+      ],
+    },
   ];
   
 

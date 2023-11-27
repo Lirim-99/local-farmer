@@ -10,15 +10,23 @@ import {
 } from '@mui/material';
 import { useValue } from '../../context/ContextProvider';
 import { StarBorder } from '@mui/icons-material';
+import { useEffect } from 'react';
+import { getRooms } from '../../actions/room';
+
+
 
 const Rooms = () => {
   const {
     state: { filteredRooms },
     dispatch,
   } = useValue();
+
+  useEffect(() => {
+    getRooms(dispatch);
+  }, []);
   return (
     <Container>
-      <ImageList
+     <ImageList
         gap={12}
         sx={{
           mb: 8,
