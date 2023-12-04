@@ -64,14 +64,24 @@ const reducer = (state, action) => {
             },
           },
         };
-    case 'UPDATE_ROOMS':
-      return {
-        ...state,
-        rooms: action.payload,
-        addressFilter: null,
-        priceFilter: 50,
-        filteredRooms: action.payload,
-      };
+        case 'UPDATE_ROOMS':
+  const roomsWithLocation = action.payload.map((room) => {
+    // Assuming latitude and longitude properties are added in the rooms
+    return {
+      ...room,
+      latitude: room.lat, // Update this line to match your room schema
+      longitude: room.lng, // Update this line to match your room schema
+    };
+  });
+  return {
+    ...state,
+    rooms: roomsWithLocation,
+    addressFilter: null,
+    priceFilter: 50,
+    filteredRooms: roomsWithLocation, // Set filteredRooms to roomsWithLocation
+  };
+
+        
     case 'FILTER_PRICE':
       return {
         ...state,

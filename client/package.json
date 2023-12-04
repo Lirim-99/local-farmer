@@ -14,6 +14,7 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.1.3",
     "firebase": "^10.5.0",
+    "geolib": "^3.3.4",
     "jwt-decode": "^3.1.2",
     "mapbox-gl": "^2.15.0",
     "moment": "^2.29.4",

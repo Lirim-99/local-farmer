@@ -10,7 +10,12 @@ export const createRoom = tryCatch(async (req, res) => {
 
 export const getRooms = tryCatch(async (req, res) => {
   const rooms = await Room.find().sort({ _id: -1 });
-  res.status(200).json({ success: true, result: rooms });
+  const roomsWithLocation = rooms.map((room) => ({
+    ...room.toObject(),
+    latitude: room.lat, // Assuming lat and lng are used in your schema
+    longitude: room.lng,
+  }));
+  res.status(200).json({ success: true, result: roomsWithLocation });
 });
 
 export const deleteRoom = tryCatch(async (req, res) => {
