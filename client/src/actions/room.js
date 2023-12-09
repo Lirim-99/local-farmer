@@ -41,25 +41,12 @@ export const createRoom = async (room, currentUser, dispatch) => {
 
 export const getRooms = async (dispatch) => {
   dispatch({ type: 'START_LOADING' });
-  try {
-    const result = await fetchData({ url, method: 'GET' }, dispatch);
-    if (result) {
-      const roomsWithLocation = result.map((room) => ({
-        ...room,
-        latitude: room.lat, // Accessing lat property from the room object
-        longitude: room.lng, // Accessing lng property from the room object
-      }));
-      dispatch({ type: 'UPDATE_ROOMS', payload: roomsWithLocation });
-    }
-  } catch (error) {
-    console.error('Error fetching rooms:', error);
-    // Handle error if needed, dispatch error action, etc.
-  } finally {
-    dispatch({ type: 'END_LOADING' });
+  const result = await fetchData({ url, method: 'GET' }, dispatch);
+  if (result) {
+    dispatch({ type: 'UPDATE_ROOMS', payload: result });
   }
+  dispatch({ type: 'END_LOADING' });
 };
-
-
 
 export const deleteRoom = async (room, currentUser, dispatch) => {
   dispatch({ type: 'START_LOADING' });
