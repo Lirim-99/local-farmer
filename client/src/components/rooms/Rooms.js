@@ -10,20 +10,78 @@ import {
 } from '@mui/material';
 import { useValue } from '../../context/ContextProvider';
 import { StarBorder } from '@mui/icons-material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getRooms } from '../../actions/room';
+import { getDistance } from 'geolib'; // Importing geolib library or whichever library you're using for distance calculation
+
 
 
 
 const Rooms = () => {
-  const {
-    state: { filteredRooms },
-    dispatch,
-  } = useValue();
+  const { state: { filteredRooms }, dispatch } = useValue();
+  const [userLocation, setUserLocation] = useState(null);
+  const [sortedRooms, setSortedRooms] = useState([]);
+  const currentUser = localStorage.getItem('currentUser');
+  const user = currentUser ? JSON.parse(currentUser) : null;
 
   useEffect(() => {
     getRooms(dispatch);
+  }, [dispatch]);
+
+  useEffect(() => {
+    const updateUserLocation = async () => {
+      try {
+        const permission = await navigator.permissions.query({ name: 'geolocation' });
+        if (permission.state === 'granted') {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const userCoordinates = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+              };
+              setUserLocation(userCoordinates);
+            },
+            (error) => {
+              console.error('Error getting user location:', error);
+            }
+          );
+        }
+      } catch (error) {
+        console.error('Error getting user location:', error);
+      }
+    };
+
+    updateUserLocation();
+
   }, []);
+
+  useEffect(() => {
+    if (userLocation && filteredRooms.length > 0) {
+      const roomsWithDistance = filteredRooms.map((room) => {
+        if (room.lat !== undefined && room.lng !== undefined) {
+          const distance = getDistance(
+            { latitude: userLocation.latitude, longitude: userLocation.longitude },
+            { latitude: room.lat, longitude: room.lng }
+          );
+          return { ...room, distance };
+        } else {
+          return { ...room, distance: Infinity };
+        }
+      });
+  
+      const sorted = roomsWithDistance.sort((a, b) => a.distance - b.distance);
+  
+      // Check if there's a signed-in user and their role is basic
+      if ((user && user.role === 'basic') || !user) {
+        const nearRooms = sorted.filter((room) => room.distance <= 20000);
+        setSortedRooms(nearRooms);
+      } else if (userLocation) {
+        // For non-basic users and when userLocation is available
+        setSortedRooms(sorted);
+      }
+    }
+  }, [filteredRooms, userLocation, user]);
+
   return (
     <Container>
      <ImageList
@@ -34,7 +92,7 @@ const Rooms = () => {
             'repeat(auto-fill, minmax(280px, 1fr))!important',
         }}
       >
-        {filteredRooms.map((room) => (
+        {sortedRooms.map((room) => (
           <Card key={room._id} sx={{ maxHeight: 350 }}>
             <ImageListItem sx={{ height: '100% !important' }}>
               <ImageListItemBar

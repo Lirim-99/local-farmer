@@ -46,7 +46,6 @@ const ClusterMap = () => {
   useEffect(() => {
     const points = filteredRooms.map((room) => {
       const mainCategory = room.category ? room.category.mainCategory : 'Unknown'; // Access mainCategory under category
-      console.log(mainCategory);       
       return {
         type: 'Feature',
         properties: {
@@ -96,7 +95,6 @@ const ClusterMap = () => {
         const { cluster: isCluster, point_count } = cluster.properties;
         const [longitude, latitude] = cluster.geometry.coordinates;
         const mainCategory = cluster.properties.mainCategory;
-        console.log("mainCategory", mainCategory)
         const categoryIcon = iconMapping[mainCategory];
         if (isCluster) {
           return (
