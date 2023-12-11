@@ -21,6 +21,8 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
+
 import MuiDrawer from '@mui/material/Drawer';
 import { useMemo, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
@@ -121,8 +123,8 @@ const SideList = ({ open, setOpen }) => {
         : []),
 
       {
-        title: 'Rooms',
-        icon: <KingBed />,
+        title: 'Products',
+        icon: <LocalGroceryStoreIcon />,
         link: 'rooms',
         component: <Rooms {...{ setSelectedLink, link: 'rooms' }} />,
       },
