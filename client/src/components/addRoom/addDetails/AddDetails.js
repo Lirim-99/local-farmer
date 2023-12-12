@@ -77,7 +77,6 @@ const AddDetails = () => {
   const handleMainCategoryChange = (e) => {
     const selectedMainCategory = e.target.value;
     setMainCategory(selectedMainCategory);
-    console.log('Selected Main Category:', selectedMainCategory);
 
     
     // Reset subcategories when changing the main category
@@ -98,7 +97,6 @@ const AddDetails = () => {
   const handleSubCategoryChange = (e) => {
     const selectedSubCategories = Array.isArray(e.target.value) ? e.target.value : [e.target.value];
     setSubCategories(selectedSubCategories);
-    console.log('Selected Sub Categories:', selectedSubCategories);
 
     dispatch({
       type: 'UPDATE_DETAILS',
