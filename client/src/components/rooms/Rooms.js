@@ -71,18 +71,14 @@ const Rooms = () => {
   
       const sorted = roomsWithDistance.sort((a, b) => a.distance - b.distance);
   
-      let roomsToDisplay = [];
-  
       // Check if there's a signed-in user and their role is basic
       if ((user && user.role === 'basic') || !user) {
-        roomsToDisplay = sorted.filter((room) => room.distance <= 20000);
+        const nearRooms = sorted.filter((room) => room.distance <= 20000);
+        setSortedRooms(nearRooms);
       } else if (userLocation) {
         // For non-basic users and when userLocation is available
-        roomsToDisplay = sorted;
+        setSortedRooms(sorted);
       }
-  
-      // Update the state with the rooms to display
-      setSortedRooms(roomsToDisplay);
     }
   }, [filteredRooms, userLocation, user]);
 
