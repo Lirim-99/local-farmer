@@ -70,7 +70,7 @@ const Rooms = () => {
   
       const sorted = roomsWithDistance.sort((a, b) => a.distance - b.distance);
   
-      if ((user && user.role === 'basic') || !user) {
+      if (user && user.role === 'basic') {
         const nearRooms = sorted.filter((room) => room.distance <= 20000);
         setSortedRooms(nearRooms);
       } else {
