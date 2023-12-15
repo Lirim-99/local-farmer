@@ -7,7 +7,7 @@ import './cluster.css';
 import { Avatar, Paper, Tooltip } from '@mui/material';
 import GeocoderInput from '../sidebar/GeocoderInput';
 import PopupRoom from './PopupRoom';
-import CerealIcon from '../categoryIcons/cereal.jpg';
+import CerealIcon from '../categoryIcons/cereal.png';
 import FruitsIcon from '../categoryIcons/fruits.jpg';
 import LegumesIcon from '../categoryIcons/legumes.jpg';
 import NutsIcon from '../categoryIcons/nuts.svg';
