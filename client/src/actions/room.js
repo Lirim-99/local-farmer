@@ -17,7 +17,14 @@ export const createRoom = async (room, currentUser, dispatch) => {
       },
     };
   }
-
+  if (room.details && room.details.currency) {
+    roomWithCategory = {
+      ...roomWithCategory,
+      currency: room.details.currency,
+      form: room.details.form,
+      formValue: room.details.formValue
+    };
+  }
   const result = await fetchData(
     { url, body: roomWithCategory, token: currentUser?.token },
     dispatch

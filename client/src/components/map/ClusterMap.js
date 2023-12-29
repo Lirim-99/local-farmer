@@ -7,15 +7,15 @@ import './cluster.css';
 import { Avatar, Paper, Tooltip } from '@mui/material';
 import GeocoderInput from '../sidebar/GeocoderInput';
 import PopupRoom from './PopupRoom';
-import CerealIcon from '../categoryIcons/cereal.png';
+import CerealIcon from '../categoryIcons/cereals_icon5.png';
 import FruitsIcon from '../categoryIcons/fruits.jpg';
-import LegumesIcon from '../categoryIcons/legumes.jpg';
-import NutsIcon from '../categoryIcons/nuts.svg';
+import LegumesIcon from '../categoryIcons/Legumes_Icon.png';
+import NutsIcon from '../categoryIcons/Nuts_Icon.png';
 import VegetablesIcon from '../categoryIcons/vegetables.svg';
 
 const iconMapping = {
   Cereals: CerealIcon,
-  Fruits: FruitsIcon,
+  Fruits: FruitsIcon, 
   Legumes: LegumesIcon,
   Nuts: NutsIcon,
   Vegetables: VegetablesIcon,
@@ -132,7 +132,7 @@ const ClusterMap = () => {
     key={`room-${cluster.properties.roomId}`}
     longitude={longitude}
     latitude={latitude}
-  >
+   >
     <Tooltip title={cluster.properties.uName}>
       {/* Dynamically select the icon based on mainCategory */}
       <div
@@ -149,22 +149,25 @@ const ClusterMap = () => {
         onClick={() => setPopupInfo(cluster.properties)}
       />
     </Tooltip>
-  </Marker>
+   </Marker>
         
         );
       })}
       <GeocoderInput />
       {popupInfo && (
         <Popup
-          longitude={popupInfo.lng}
-          latitude={popupInfo.lat}
-          maxWidth="auto"
-          closeOnClick={false}
-          focusAfterOpen={false}
-          onClose={() => setPopupInfo(null)}
-        >
+        longitude={popupInfo.lng}
+        latitude={popupInfo.lat}
+        maxWidth="auto"
+        closeOnClick={false}
+        focusAfterOpen={false}
+        onClose={() => setPopupInfo(null)}
+      >
+        {/* Ensure PopupRoom is properly enclosed within the Popup */}
+        <div style={{ maxWidth: '300px', width: '250px' }}> {/* Adjust the width as needed */}
           <PopupRoom {...{ popupInfo }} />
-        </Popup>
+        </div>
+      </Popup>
       )}
     </ReactMapGL>
   );

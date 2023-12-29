@@ -4,7 +4,10 @@ const roomSchema = mongoose.Schema(
   {
     lng: { type: Number, required: true },
     lat: { type: Number, required: true },
-    price: { type: Number, min: 0, max: 50, default: 0 },
+    price: { type: Number, min: 0, default: 0 },
+    form: {type: String, required: true},
+    formValue: {type: Number, required: true},
+    currency: {type: String,required: true},
     title: { type: String, required: true, minLength: 5, maxLength: 150 },
     description: {
       type: String,

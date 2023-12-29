@@ -27,14 +27,14 @@ const BottomNav = () => {
     if (currentUser) {
       // If the user is logged in and has a role other than "basic", set the section to "Map" (0)
       if (currentUser.role !== 'basic') {
-        dispatch({ type: 'UPDATE_SECTION', payload: 0 });
+        dispatch({ type: 'UPDATE_SECTION', payload: 1 });
       } else {
         // If the user has a "basic" role, set the section to "Products" (1)
-        dispatch({ type: 'UPDATE_SECTION', payload: 1 });
+        dispatch({ type: 'UPDATE_SECTION', payload: 0 });
       }
     } else {
       // If the user is not logged in, set the section to "Products" (1)
-      dispatch({ type: 'UPDATE_SECTION', payload: 1 });
+      dispatch({ type: 'UPDATE_SECTION', payload: 0 });
     }
   }, [currentUser, dispatch]);
 
@@ -42,8 +42,8 @@ const BottomNav = () => {
     <Box ref={ref}>
       {
         {
-          0: currentUser && currentUser.role !== 'basic' ? <ClusterMap /> : null,
-          1: <Rooms />,
+          0: <Rooms />,
+          1: currentUser && currentUser.role !== 'basic' ? <ClusterMap /> : null,
           2: (
             <Protected>
               <AddRoom />
@@ -62,13 +62,13 @@ const BottomNav = () => {
             dispatch({ type: 'UPDATE_SECTION', payload: newValue })
           }
         >
-          {currentUser && currentUser.role !== 'basic' && (
-            <BottomNavigationAction label="Map" icon={<LocationOn />} />
-          )}
           <BottomNavigationAction
             label="Products"
             icon={<LocalGroceryStoreIcon />}
           />
+          {currentUser && currentUser.role !== 'basic' && (
+            <BottomNavigationAction label="Map" icon={<LocationOn />} />
+          )}
           <BottomNavigationAction label="Add" icon={<AddLocationAlt />} />
         </BottomNavigation>
       </Paper>

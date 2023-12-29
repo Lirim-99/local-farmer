@@ -62,12 +62,12 @@ const AddRoom = () => {
     }
   }, [images]);
   useEffect(() => {
-    if (details.title.length > 4 && details.description.length > 9) {
-      if (!steps[1].completed) setComplete(1, true);
-    } else {
-      if (steps[1].completed) setComplete(1, false);
-    }
-  }, [details]);
+  if (details.title && details.description && details.title.length > 4 && details.description.length > 9) {
+    if (!steps[1].completed) setComplete(1, true);
+  } else {
+    if (steps[1].completed) setComplete(1, false);
+  }
+}, [details]);
   useEffect(() => {
     if (location.lng || location.lat) {
       if (!steps[0].completed) setComplete(0, true);
@@ -98,6 +98,9 @@ const AddRoom = () => {
       description: details.description,
       images,
       category: details.category,
+      form: details.form,
+      formValue: details.formValue,
+      currency: details.currency
     };
     if (updatedRoom)
       return updateRoom(
@@ -107,16 +110,21 @@ const AddRoom = () => {
         updatedRoom,
         deletedImages
       );
+    dispatch({ type: 'UPDATE_SECTION', payload: 0 });
     createRoom(room, currentUser, dispatch);
   };
 
   const navigate = useNavigate();
   const handleCancel = () => {
     if (updatedRoom) {
+      console.log("cancel")
+
       navigate('/dashboard/rooms');
       clearRoom(dispatch, currentUser, addedImages, updatedRoom);
     } else {
-      dispatch({ type: 'UPDATE_SECTION', payload: 0 });
+      console.log("cancel")
+      
+      dispatch({ type: 'UPDATE_SECTION', payload: 1 });
       clearRoom(dispatch, currentUser, images);
     }
   };

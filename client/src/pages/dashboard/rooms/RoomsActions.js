@@ -5,7 +5,7 @@ import { clearRoom, deleteRoom } from '../../../actions/room';
 import { useNavigate } from 'react-router-dom';
 
 const RoomsActions = ({ params }) => {
-  const { _id, lng, lat, price, title, description, images, uid, category } = params.row;
+  const { _id, lng, lat, price, title, description, images, uid, category, form, formValue, currency } = params.row;
   const {
     dispatch,
     state: { currentUser, updatedRoom, addedImages, images: newImages },
@@ -21,8 +21,9 @@ const RoomsActions = ({ params }) => {
     dispatch({ type: 'UPDATE_LOCATION', payload: { lng, lat } });
     dispatch({
       type: 'UPDATE_DETAILS',
-      payload: { price, title, description, category },
+      payload: { price, title, description, category, form, formValue, currency },
     });
+    console.log("currency", currency)
     dispatch({ type: 'UPDATE_IMAGES', payload: images });
     dispatch({ type: 'UPDATE_UPDATED_ROOM', payload: { _id, uid } });
     dispatch({ type: 'UPDATE_SECTION', payload: 2 });

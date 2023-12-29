@@ -64,6 +64,31 @@ const reducer = (state, action) => {
             },
           },
         };
+        case "UPDATE_CURRENCY":
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          currency: action.payload.currency,
+        },
+      };
+    case "UPDATE_FORM":
+      return {
+        ...state,
+        details: {
+          ...state.details.form,
+          form: action.payload.form,
+        },
+      };
+      case "UPDATE_FORM_VALUE":
+    return {
+      ...state,
+      details: {
+        ...state.details,
+        formValue: action.payload.formValue,
+      },
+    };
+
     case 'UPDATE_ROOMS':
       return {
         ...state,

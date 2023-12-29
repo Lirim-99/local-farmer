@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { useValue } from '../../context/ContextProvider';
 import { StarBorder } from '@mui/icons-material';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getRooms } from '../../actions/room';
 import { getDistance } from 'geolib'; 
 
@@ -21,7 +21,7 @@ const Rooms = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [sortedRooms, setSortedRooms] = useState([]);
   const currentUser = localStorage.getItem('currentUser');
-  const user = currentUser ? JSON.parse(currentUser) : null;
+  const user = currentUser ? JSON.parse(currentUser) : null; 
 
   useEffect(() => {
     getRooms(dispatch);
