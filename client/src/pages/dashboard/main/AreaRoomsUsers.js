@@ -27,6 +27,7 @@ for (let i = 0; i < months; i++) {
 }
 
 export default function AreaRoomsUsers() {
+  const [products, setProducts] = useState([]);
   const {
     state: { rooms, users },
   } = useValue();
@@ -47,16 +48,17 @@ export default function AreaRoomsUsers() {
 
   useEffect(() => {
     for (let i = 0; i < months; i++) {
-      tempData[i].rooms = 0;
+      tempData[i].products = 0;
     }
-    rooms.forEach((room) => {
+    products.forEach((room) => {
       for (let i = 0; i < months; i++) {
         if (moment(tempData[i].date).isSame(room?.createdAt, 'month'))
-          return tempData[i].rooms++;
+          return tempData[i].products++;
       }
     });
     setData([...tempData]);
-  }, [rooms]);
+    setProducts(rooms)
+  }, [products]);
   return (
     <div style={{ width: '100%', height: 300, minWidth: 250 }}>
       <ResponsiveContainer>
@@ -81,7 +83,7 @@ export default function AreaRoomsUsers() {
           />
           <Area
             type="monotone"
-            dataKey="rooms"
+            dataKey="products"
             stackId="1"
             stroke="#82ca9d"
             fill="#82ca9d"
