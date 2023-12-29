@@ -23,7 +23,6 @@ const RoomsActions = ({ params }) => {
       type: 'UPDATE_DETAILS',
       payload: { price, title, description, category, form, formValue, currency },
     });
-    console.log("currency", currency)
     dispatch({ type: 'UPDATE_IMAGES', payload: images });
     dispatch({ type: 'UPDATE_UPDATED_ROOM', payload: { _id, uid } });
     dispatch({ type: 'UPDATE_SECTION', payload: 2 });

@@ -117,14 +117,12 @@ const AddRoom = () => {
   const navigate = useNavigate();
   const handleCancel = () => {
     if (updatedRoom) {
-      console.log("cancel")
 
       navigate('/dashboard/rooms');
       clearRoom(dispatch, currentUser, addedImages, updatedRoom);
     } else {
-      console.log("cancel")
       
-      dispatch({ type: 'UPDATE_SECTION', payload: 1 });
+      dispatch({ type: 'UPDATE_SECTION', payload: 0 });
       clearRoom(dispatch, currentUser, images);
     }
   };

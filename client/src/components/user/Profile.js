@@ -95,7 +95,7 @@ const Profile = () => {
             required
             defaultValue={currentUser?.name}
           />
-          <TextField
+          {/* <TextField
             margin="normal"
             variant="standard"
             id="password"
@@ -103,7 +103,7 @@ const Profile = () => {
             type="password"
             fullWidth
             inputRef={passwordRef}
-          />
+          /> */}
           <TextField
             margin="normal"
             variant="standard"

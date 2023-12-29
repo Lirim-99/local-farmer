@@ -35,11 +35,6 @@ const UsersActions = ({ params, rowId, setRowId }) => {
     if (rowId === params.id && success) setSuccess(false);
   }, [rowId, success]);
 
-  console.log('params.id:', params.id);
-  console.log('rowId:', rowId);
-  console.log('loading:', loading);
-  console.log('success:', success);
-
   return (
     <Box
       sx={{

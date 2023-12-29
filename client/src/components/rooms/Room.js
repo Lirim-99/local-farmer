@@ -37,6 +37,7 @@ const Room = () => {
   const [place, setPlace] = useState(null);
 
   useEffect(() => {
+    console.log("Room", room)
     if (room) {
       const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${room.lng},${room.lat}.json?access_token=${process.env.REACT_APP_MAP_TOKEN}`;
       fetch(url)
@@ -113,10 +114,10 @@ const Room = () => {
           >
             <Box>
               <Typography variant="h6" component="span">
-                {'Price Per One: '}
+                {'Price per '}{room?.form}{' : '}
               </Typography>
               <Typography component="span">
-                {room?.price === 0 ? 'Free' : '$' + room?.price}
+                {room?.price === 0 ? 'Free' : room?.currency + room?.price}
               </Typography>
             </Box>
             <Box
@@ -126,14 +127,17 @@ const Room = () => {
               }}
             >
               <Typography variant="h6" component="span">
-                {'Ratings: '}
+                {room?.formValue}{room?.form}{' Available '}
               </Typography>
-              <Rating
+              {/* <Typography variant="h6" component="span">
+                {'Ratings: '}
+              </Typography> */}
+              {/* <Rating
                 name="room-ratings"
                 defaultValue={3.5}
                 precision={0.5}
                 emptyIcon={<StarBorder />}
-              />
+              /> */}
             </Box>
           </Stack>
           <Stack

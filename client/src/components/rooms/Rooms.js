@@ -87,11 +87,11 @@ const Rooms = () => {
         sx={{
           mb: 8,
           gridTemplateColumns:
-            'repeat(auto-fill, minmax(280px, 1fr))!important',
+            'repeat(auto-fill, minmax(250px, 1fr))!important',
         }}
       >
         {sortedRooms.map((room) => (
-          <Card key={room._id} sx={{ maxHeight: 350 }}>
+          <Card key={room._id} sx={{ maxHeight: 250 }}>
             <ImageListItem sx={{ height: '100% !important' }}>
               <ImageListItemBar
                 sx={{
